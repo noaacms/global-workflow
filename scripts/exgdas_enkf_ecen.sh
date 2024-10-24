@@ -117,37 +117,37 @@ for imem in $(seq 1 $NMEM_ENS); do
    memchar="mem"$(printf %03i $imem)
 
    MEMDIR=${memchar} YMD=${PDY} HH=${cyc} declare_from_tmpl -x \
-      COM_ATMOS_ANALYSIS_MEM:COM_ATMOS_ANALYSIS_TMPL
+      COMOUT_ATMOS_ANALYSIS_MEM:COM_ATMOS_ANALYSIS_TMPL
 
    MEMDIR=${gmemchar} RUN=${GDUMP_ENS} YMD=${gPDY} HH=${gcyc} declare_from_tmpl -x \
-      COM_ATMOS_HISTORY_MEM_PREV:COM_ATMOS_HISTORY_TMPL
+      COMIN_ATMOS_HISTORY_MEM_PREV:COM_ATMOS_HISTORY_TMPL
 
-   ${NLN} "${COM_ATMOS_HISTORY_MEM_PREV}/${GPREFIX_ENS}atmf00${FHR}${ENKF_SUFFIX}.nc" "./atmges_${memchar}"
+   ${NLN} "${COMIN_ATMOS_HISTORY_MEM_PREV}/${GPREFIX_ENS}atmf00${FHR}${ENKF_SUFFIX}.nc" "./atmges_${memchar}"
    if [ $DO_CALC_INCREMENT = "YES" ]; then
       if [ $FHR -eq 6 ]; then
-         ${NLN} "${COM_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}atmanl.nc" "./atmanl_${memchar}"
+         ${NLN} "${COMOUT_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}atmanl.nc" "./atmanl_${memchar}"
       else
-         ${NLN} "${COM_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}atma00${FHR}.nc" "./atmanl_${memchar}"
+         ${NLN} "${COMOUT_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}atma00${FHR}.nc" "./atmanl_${memchar}"
       fi
    fi
-   mkdir -p "${COM_ATMOS_ANALYSIS_MEM}"
+   mkdir -p "${COMOUT_ATMOS_ANALYSIS_MEM}"
    if [ $FHR -eq 6 ]; then
-      ${NLN} "${COM_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}atminc.nc" "./atminc_${memchar}"
+      ${NLN} "${COMOUT_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}atminc.nc" "./atminc_${memchar}"
    else
-      ${NLN} "${COM_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}atmi00${FHR}.nc" "./atminc_${memchar}"
+      ${NLN} "${COMOUT_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}atmi00${FHR}.nc" "./atminc_${memchar}"
    fi
    if [[ $RECENTER_ENKF = "YES" ]]; then
       if [ $DO_CALC_INCREMENT = "YES" ]; then
          if [ $FHR -eq 6 ]; then
-            ${NLN} "${COM_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}ratmanl.nc" "./ratmanl_${memchar}"
+            ${NLN} "${COMOUT_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}ratmanl.nc" "./ratmanl_${memchar}"
          else
-            ${NLN} "${COM_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}ratma00${FHR}.nc" "./ratmanl_${memchar}"
+            ${NLN} "${COMOUT_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}ratma00${FHR}.nc" "./ratmanl_${memchar}"
          fi
      else
          if [ $FHR -eq 6 ]; then
-            ${NLN} "${COM_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}ratminc.nc" "./ratminc_${memchar}"
+            ${NLN} "${COMOUT_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}ratminc.nc" "./ratminc_${memchar}"
          else
-            ${NLN} "${COM_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}ratmi00${FHR}.nc" "./ratminc_${memchar}"
+            ${NLN} "${COMOUT_ATMOS_ANALYSIS_MEM}/${APREFIX_ENS}ratmi00${FHR}.nc" "./ratminc_${memchar}"
          fi
      fi
    fi
