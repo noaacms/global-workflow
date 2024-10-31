@@ -156,9 +156,9 @@ done
 if [ $DO_CALC_INCREMENT = "YES" ]; then
    # Link ensemble mean analysis
    if [ $FHR -eq 6 ]; then
-      ${NLN} "${COM_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atmanl.ensmean.nc" "./atmanl_ensmean"
+      ${NLN} "${COMIN_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atmanl.ensmean.nc" "./atmanl_ensmean"
    else
-      ${NLN} "${COM_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atma00${FHR}.ensmean.nc" "./atmanl_ensmean"
+      ${NLN} "${COMIN_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atma00${FHR}.ensmean.nc" "./atmanl_ensmean"
    fi
 
    # Compute ensemble mean analysis
@@ -176,9 +176,9 @@ if [ $DO_CALC_INCREMENT = "YES" ]; then
 else
    # Link ensemble mean increment
    if [ $FHR -eq 6 ]; then
-      ${NLN} "${COM_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atminc.ensmean.nc" "./atminc_ensmean"
+      ${NLN} "${COMIN_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atminc.ensmean.nc" "./atminc_ensmean"
    else
-      ${NLN} "${COM_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atmi00${FHR}.ensmean.nc" "./atminc_ensmean"
+      ${NLN} "${COMIN_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atmi00${FHR}.ensmean.nc" "./atminc_ensmean"
    fi
 
    # Compute ensemble mean increment
@@ -195,8 +195,8 @@ else
    export err=$?; err_chk
 
    # If available, link to ensemble mean guess.  Otherwise, compute ensemble mean guess
-   if [[ -s "${COM_ATMOS_HISTORY_STAT_PREV}/${GPREFIX_ENS}atmf00${FHR}.ensmean.nc" ]]; then
-       ${NLN} "${COM_ATMOS_HISTORY_STAT_PREV}/${GPREFIX_ENS}atmf00${FHR}.ensmean.nc" "./atmges_ensmean"
+   if [[ -s "${COMIN_ATMOS_HISTORY_STAT_PREV}/${GPREFIX_ENS}atmf00${FHR}.ensmean.nc" ]]; then
+       ${NLN} "${COMIN_ATMOS_HISTORY_STAT_PREV}/${GPREFIX_ENS}atmf00${FHR}.ensmean.nc" "./atmges_ensmean"
    else
        DATAPATH="./"
        ATMGESNAME="atmges"
@@ -231,11 +231,11 @@ if [ $RECENTER_ENKF = "YES" ]; then
 
    # GSI EnVar analysis
    if [ $FHR -eq 6 ]; then
-     ATMANL_GSI="${COM_ATMOS_ANALYSIS_DET}/${APREFIX}atmanl.nc"
-     ATMANL_GSI_ENSRES="${COM_ATMOS_ANALYSIS_DET}/${APREFIX}atmanl.ensres.nc"
+     ATMANL_GSI="${COMIN_ATMOS_ANALYSIS_DET}/${APREFIX}atmanl.nc"
+     ATMANL_GSI_ENSRES="${COMIN_ATMOS_ANALYSIS_DET}/${APREFIX}atmanl.ensres.nc"
    else
-     ATMANL_GSI="${COM_ATMOS_ANALYSIS_DET}/${APREFIX}atma00${FHR}.nc"
-     ATMANL_GSI_ENSRES="${COM_ATMOS_ANALYSIS_DET}/${APREFIX}atma00${FHR}.ensres.nc"
+     ATMANL_GSI="${COMIN_ATMOS_ANALYSIS_DET}/${APREFIX}atma00${FHR}.nc"
+     ATMANL_GSI_ENSRES="${COMIN_ATMOS_ANALYSIS_DET}/${APREFIX}atma00${FHR}.ensres.nc"
    fi
 
    # if we already have a ensemble resolution GSI analysis then just link to it
