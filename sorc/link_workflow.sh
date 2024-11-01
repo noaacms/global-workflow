@@ -73,7 +73,7 @@ case "${machine}" in
   "hera")     FIX_DIR="/scratch1/NCEPDEV/global/glopara/fix" ;;
   "orion")    FIX_DIR="/work/noaa/global/glopara/fix" ;;
   "hercules") FIX_DIR="/work/noaa/global/glopara/fix" ;;
-  "jet")      FIX_DIR="/lfs4/HFIP/hfv3gfs/glopara/git/fv3gfs/fix" ;;
+  "jet")      FIX_DIR="/lfs5/HFIP/hfv3gfs/glopara/FIX/fix" ;;
   "s4")       FIX_DIR="/data/prod/glopara/fix" ;;
   "gaea")     FIX_DIR="/gpfs/f5/ufs-ard/world-shared/global/glopara/data/fix" ;;
   "noaacloud") FIX_DIR="/contrib/global-workflow-shared-data/fix" ;;
@@ -86,15 +86,6 @@ esac
 # Source fix version file
 source "${HOMEgfs}/versions/fix.ver"
 
-# Link python pacakges in ush/python
-# TODO: This will be unnecessary when these are part of the virtualenv
-packages=("wxflow")
-for package in "${packages[@]}"; do
-    cd "${HOMEgfs}/ush/python" || exit 1
-    [[ -s "${package}" ]] && rm -f "${package}"
-    ${LINK} "${HOMEgfs}/sorc/${package}/src/${package}" .
-done
-
 # Link GDASapp python packages in ush/python
 packages=("jcb")
 for package in "${packages[@]}"; do
@@ -102,15 +93,6 @@ for package in "${packages[@]}"; do
     [[ -s "${package}" ]] && rm -f "${package}"
     ${LINK} "${HOMEgfs}/sorc/gdas.cd/sorc/${package}/src/${package}" .
 done
-
-# Link wxflow in workflow and ci/scripts
-# TODO: This will be unnecessary when wxflow is part of the virtualenv
-cd "${HOMEgfs}/workflow" || exit 1
-[[ -s "wxflow" ]] && rm -f wxflow
-${LINK} "${HOMEgfs}/sorc/wxflow/src/wxflow" .
-cd "${HOMEgfs}/ci/scripts" || exit 1
-[[ -s "wxflow" ]] && rm -f wxflow
-${LINK} "${HOMEgfs}/sorc/wxflow/src/wxflow" .
 
 # Link fix directories
 if [[ -n "${FIX_DIR}" ]]; then
@@ -275,7 +257,6 @@ if [[ -d "${HOMEgfs}/sorc/gdas.cd/build" ]]; then
   done
 fi
 
-
 #------------------------------
 #--add DA Monitor file (NOTE: ensure to use correct version)
 #------------------------------
@@ -372,6 +353,7 @@ if [[ -d "${HOMEgfs}/sorc/gdas.cd/build" ]]; then
                        "gdas_incr_handler.x" \
                        "gdas_obsprovider2ioda.x" \
                        "gdas_socahybridweights.x" \
+                       "gdassoca_obsstats.x" \
                        "gdasapp_land_ensrecenter.x" \
                        "bufr2ioda.x" \
                        "calcfIMS.exe" \
