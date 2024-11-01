@@ -156,9 +156,9 @@ done
 if [ $DO_CALC_INCREMENT = "YES" ]; then
    # Link ensemble mean analysis
    if [ $FHR -eq 6 ]; then
-      ${NLN} "${COMIN_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atmanl.ensmean.nc" "./atmanl_ensmean"
+      ${NLN} "${COMOUT_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atmanl.ensmean.nc" "./atmanl_ensmean"
    else
-      ${NLN} "${COMIN_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atma00${FHR}.ensmean.nc" "./atmanl_ensmean"
+      ${NLN} "${COMOUT_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atma00${FHR}.ensmean.nc" "./atmanl_ensmean"
    fi
 
    # Compute ensemble mean analysis
@@ -176,9 +176,9 @@ if [ $DO_CALC_INCREMENT = "YES" ]; then
 else
    # Link ensemble mean increment
    if [ $FHR -eq 6 ]; then
-      ${NLN} "${COMIN_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atminc.ensmean.nc" "./atminc_ensmean"
+      ${NLN} "${COMOUT_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atminc.ensmean.nc" "./atminc_ensmean"
    else
-      ${NLN} "${COMIN_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atmi00${FHR}.ensmean.nc" "./atminc_ensmean"
+      ${NLN} "${COMOUT_ATMOS_ANALYSIS_STAT}/${APREFIX_ENS}atmi00${FHR}.ensmean.nc" "./atminc_ensmean"
    fi
 
    # Compute ensemble mean increment
