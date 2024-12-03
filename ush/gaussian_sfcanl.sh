@@ -134,7 +134,6 @@ ${INISCRIPT:-}
 pwd=$(pwd)
 cd "${DATA}" || exit 99
 [[ -d "${COMOUT_ATMOS_ANALYSIS}" ]] || mkdir -p "${COMOUT_ATMOS_ANALYSIS}"
-[[ -d "${COMOUT_ATMOS_RESTART}" ]] || mkdir -p "${COMOUT_ATMOS_RESTART}"
 
 ################################################################################
 #  Make surface analysis
