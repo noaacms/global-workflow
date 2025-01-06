@@ -2898,6 +2898,8 @@ class GFSTasks(Tasks):
         deps = []
         dep_dict = {'type': 'metatask', 'name': f'{self.run}_epmn'}
         deps.append(rocoto.add_dependency(dep_dict))
+        dep_dict = {'type': 'task', 'name': 'enkfgdas_echgres'}
+        deps.append(rocoto.add_dependency(dep_dict))
         dependencies = rocoto.create_dependency(dep=deps)
 
         earcenvars = self.envars.copy()
