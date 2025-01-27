@@ -214,6 +214,10 @@ class MarineAnalysis(Task):
         envconfig_jcb['cyc'] = os.getenv('cyc')
         envconfig_jcb['SOCA_NINNER'] = self.task_config.SOCA_NINNER
         envconfig_jcb['obs_list'] = ['adt_rads_all']
+        envconfig_jcb['HOMEgfs'] = self.task_config.HOMEgfs
+        envconfig_jcb['DO_TEST_MODE'] = self.task_config.DO_TEST_MODE
+        envconfig_jcb['RUN'] = self.task_config.RUN
+        envconfig_jcb['current_cycle'] = self.task_config.current_cycle
         envconfig_jcb['MOM6_LEVS'] = mdau.get_mom6_levels(str(self.task_config.OCNRES).zfill(3))
 
         # Write obs_list_short
@@ -222,7 +226,7 @@ class MarineAnalysis(Task):
 
         # Render the JCB configuration files
         jcb_base_yaml = os.path.join(self.task_config.PARMsoca, 'marine-jcb-base.yaml')
-        jcb_algo_yaml = os.path.join(self.task_config.PARMsoca, 'marine-jcb-3dfgat.yaml.j2')
+        jcb_algo_yaml = self.task_config.JCB_ALGO_YAML_VAR
 
         jcb_base_config = parse_j2yaml(path=jcb_base_yaml, data=envconfig_jcb)
         jcb_algo_config = parse_j2yaml(path=jcb_algo_yaml, data=envconfig_jcb)
@@ -277,6 +281,8 @@ class MarineAnalysis(Task):
         soca2cice_param = AttrDict({
             "ocn_ana": f"./Data/ocn.3dvarfgat_pseudo.an.{self.task_config.MARINE_WINDOW_MIDDLE_ISO}.nc",
             "ice_ana": f"./Data/ice.3dvarfgat_pseudo.an.{self.task_config.MARINE_WINDOW_MIDDLE_ISO}.nc",
+            "ocn_inc": f"./Data/ocn.3dvarfgat_pseudo.incr.{self.task_config.MARINE_WINDOW_MIDDLE_ISO}.nc",
+            "ice_inc": f"./Data/ice.3dvarfgat_pseudo.incr.{self.task_config.MARINE_WINDOW_MIDDLE_ISO}.nc",
             "ice_rst": ice_rst_ana,
             "fcst_begin": fcst_begin
         })
@@ -284,11 +290,10 @@ class MarineAnalysis(Task):
 
         # render the SOCA to CICE YAML file for the Arctic and Antarctic
         logger.info("render the SOCA to CICE YAML file for the Arctic and Antarctic")
-        varchgyamls = ['soca_2cice_global.yaml']
-        for varchgyaml in varchgyamls:
-            soca2cice_config = parse_j2yaml(path=os.path.join(self.task_config.MARINE_JCB_GDAS_ALGO, f'{varchgyaml}.j2'),
-                                            data=soca2cice_param)
-            soca2cice_config.save(os.path.join(self.task_config.DATA, varchgyaml))
+        varchgyaml = 'soca_2cice_global.yaml'
+        soca2cice_config = parse_j2yaml(path=os.path.join(self.task_config.MARINE_JCB_GDAS_ALGO, f'{varchgyaml}.j2'),
+                                        data=soca2cice_param)
+        soca2cice_config.save(os.path.join(self.task_config.DATA, varchgyaml))
 
     @logit(logger)
     def variational(self: Task) -> None:
@@ -383,6 +388,10 @@ class MarineAnalysis(Task):
             # Copy the analysis at the start of the window
             post_file_list.append([os.path.join(anl_dir, 'Data', f'{domain}.3dvarfgat_pseudo.an.{mdate}.nc'),
                                    os.path.join(com_ocean_analysis, f'{RUN}.t{cyc}z.{domain}ana.nc')])
+
+        # Copy soca2cice ice increment
+        post_file_list.append([os.path.join(anl_dir, 'Data', f'ice.soca2cice.incr.{bdate}.nc'),
+                              os.path.join(com_ocean_analysis, f'{RUN}.t{cyc}z.ice.incr.postproc.nc')])
 
         # Copy of the ssh diagnostics
         if nmem_ens > 2:
